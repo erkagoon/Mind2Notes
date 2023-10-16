@@ -1,0 +1,20 @@
+# Fichiers générés par Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# Environnements virtuels
+venv/
+*.venv/
+.env/
+
+# Fichiers générés par des outils de développement
+*.log
+*.suo
+*.user
+*.bak
+
+# Autres fichiers ou dossiers que vous ne souhaitez pas inclure dans Git
+# par exemple : les exécutables ou les fichiers binaires
+*.exe
