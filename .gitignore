@@ -20,3 +20,4 @@ venv/
 *.exe
 build/
 dist/
+main.spec
