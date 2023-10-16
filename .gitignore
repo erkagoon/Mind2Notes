@@ -18,3 +18,5 @@ venv/
 # Autres fichiers ou dossiers que vous ne souhaitez pas inclure dans Git
 # par exemple : les exécutables ou les fichiers binaires
 *.exe
+build/
+dist/
