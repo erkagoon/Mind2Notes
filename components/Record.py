@@ -53,7 +53,7 @@ class Record:
         self.overlay.show()
 
         # Démarrer le timer pour enregistrer périodiquement
-        self.timer.start(10)  # Par exemple, exécutez `record_chunk` toutes les 100ms
+        self.timer.start(10)
 
         print("Recording started...")
 
@@ -83,7 +83,7 @@ class Record:
         print(f"File saved as {file_path}")
 
         record_path = "records\output.wav"
-        whisper_module = whisper  # Chargez ou importez le module whisper ici
+        whisper_module = whisper
         model_type = "small"
         transcriber = WhisperTranscriber(record_path, whisper_module, model_type)
         transcription = transcriber.transcribe()
