@@ -21,3 +21,4 @@ venv/
 build/
 dist/
 main.spec
+records/output.wav
