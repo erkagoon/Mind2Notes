@@ -174,7 +174,7 @@
   <action name="actionadd_project">
    <property name="icon">
     <iconset>
-     <normaloff>../../Projet whisper/icons/folder--plus.png</normaloff>../../Projet whisper/icons/folder--plus.png</iconset>
+     <normaloff>../../icons/folder--plus.png</normaloff>../../icons/folder--plus.png</iconset>
    </property>
    <property name="text">
     <string>add_project</string>
@@ -186,7 +186,7 @@
   <action name="actionadd_category">
    <property name="icon">
     <iconset>
-     <normaloff>../../Projet whisper/icons/categories.png</normaloff>../../Projet whisper/icons/categories.png</iconset>
+     <normaloff>../../icons/categories.png</normaloff>../../icons/categories.png</iconset>
    </property>
    <property name="text">
     <string>add_category</string>
@@ -198,7 +198,7 @@
   <action name="actionnew_record">
    <property name="icon">
     <iconset>
-     <normaloff>../../Projet whisper/icons/cassette--plus.png</normaloff>../../Projet whisper/icons/cassette--plus.png</iconset>
+     <normaloff>../../icons/cassette--plus.png</normaloff>../../icons/cassette--plus.png</iconset>
    </property>
    <property name="text">
     <string>new_record</string>
@@ -210,7 +210,7 @@
   <action name="actionextract">
    <property name="icon">
     <iconset>
-     <normaloff>../../Projet whisper/icons/folder-export.png</normaloff>../../Projet whisper/icons/folder-export.png</iconset>
+     <normaloff>../../icons/folder-export.png</normaloff>../../icons/folder-export.png</iconset>
    </property>
    <property name="text">
     <string>extract</string>
