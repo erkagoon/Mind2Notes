@@ -4,10 +4,12 @@ import wave
 from PyQt6 import QtWidgets, QtCore
 from Ui.Overlay import Overlay
 from components.WhisperTranscriber import WhisperTranscriber
-import whisper
+# import whisper
 
 class Record:
-    def __init__(self, filename="../records/output.wav", rate=44100, chunk=1024, channels=2, format=pyaudio.paInt16):
+    def __init__(self, filename=None, rate=44100, chunk=1024, channels=1, format=pyaudio.paInt16):
+        if filename is None:
+            filename = os.path.abspath(os.path.join("records", "output.wav"))
         self.filename = filename
         self.rate = rate
         self.chunk = chunk
@@ -27,8 +29,8 @@ class Record:
         self.frames.append(data)
 
         # Si l'overlay n'est plus visible, stopper l'enregistrement
-        if not self.overlay.isVisible():
-            self.stop_record()
+        # if not self.overlay.isVisible():
+        #     self.stop_record()
 
     def start_record(self):
         # Initialiser l'enregistrement
@@ -38,19 +40,19 @@ class Record:
         self.frames = []
 
         # Afficher l'overlay
-        self.overlay = QtWidgets.QWidget()
-        self.overlay_ui = Overlay()
-        self.overlay_ui.setupUi(self.overlay)
-        self.overlay_ui.closed.connect(self.stop_record)  # Connectez le signal 'closed' de l'overlay à la méthode stop_record
+        # self.overlay = QtWidgets.QWidget()
+        # self.overlay_ui = Overlay()
+        # self.overlay_ui.setupUi(self.overlay)
+        # self.overlay_ui.closed.connect(self.stop_record)  # Connectez le signal 'closed' de l'overlay à la méthode stop_record
 
         # Affichage de l'overlay dans le coin supérieur droit
-        screen_geometry = QtWidgets.QApplication.primaryScreen().geometry()
-        overlay_geometry = self.overlay.frameGeometry()
-        overlay_x = screen_geometry.width() - overlay_geometry.width()
-        overlay_y = 0  # Pour le coin supérieur
-        self.overlay.move(overlay_x, overlay_y)
+        # screen_geometry = QtWidgets.QApplication.primaryScreen().geometry()
+        # overlay_geometry = self.overlay.frameGeometry()
+        # overlay_x = screen_geometry.width() - overlay_geometry.width()
+        # overlay_y = 0  # Pour le coin supérieur
+        # self.overlay.move(overlay_x, overlay_y)
 
-        self.overlay.show()
+        # self.overlay.show()
 
         # Démarrer le timer pour enregistrer périodiquement
         self.timer.start(10)
@@ -82,9 +84,10 @@ class Record:
 
         print(f"File saved as {file_path}")
 
-        record_path = "records\output.wav"
-        whisper_module = whisper
-        model_type = "small"
-        transcriber = WhisperTranscriber(record_path, whisper_module, model_type)
-        transcription = transcriber.transcribe()
-        print(transcription)
+        record_path = self.filename
+        return record_path
+        # whisper_module = whisper
+        # model_type = "small"
+        # transcriber = WhisperTranscriber(record_path, whisper_module, model_type)
+        # transcription = transcriber.transcribe()
+        # print(transcription)
