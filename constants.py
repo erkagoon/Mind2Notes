@@ -1,4 +1,3 @@
-OPENAI_API_KEY = "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"
 OPENAI_CHAT_MODEL = "gpt-3.5-turbo"
 OPENAI_AUDIO_MODEL = "whisper-1"
 
@@ -15,7 +14,7 @@ Your goal is to clean an input text, generated from a speech to text analysis.
 Your primary task is to preserve the original wording.
 You have to write the whole modified text back, without adding any preceding or trailing comments.
 Modify only the parts that are obviously wrong, make the minimal possible modifications to make correct sentences, but keep everything else exactly as in the input text.
-Introduce punctuation where necessary, but under no circumstances should you modify the actual words, only punctuation marks.
+Introduce punctuation if necessary, but under no circumstances should you modify the actual words, only punctuation marks if you feel some are missing.
 """
 
 # Prompt for categorizing incoming textual notes.
@@ -32,8 +31,8 @@ Existing categories:
 """
 
 
-FUNCTION_CALLS_COMMANDS = [
-    {
+FUNCTION_CALLS_COMMANDS = {
+    "switch_to_project_id": {
         "name": "switch_to_project_id",
         "description": "Switch to project with given ID.",
         "parameters": {
@@ -47,21 +46,22 @@ FUNCTION_CALLS_COMMANDS = [
             "required": ["project_id"],
         },
     },
-    {
+    "switch_to_project_name": {
         "name": "switch_to_project_name",
-        "description": "Switch to project with given name. Here's the list of projects, choose amongst those names : <projects>.",
+        "description": "Switch to project with given name. Here's the list of existing projects, choose amongst those names : <projects_string>. If the input seems close to one of the names specified, you have to modify it to stick to return the exact project name. Guess the right project based on input words pronunciation and closeness to the real existing project names",
         "parameters": {
             "type": "object",
             "properties": {
                 "project_name": {
                     "type": "string",
                     "description": "The project name",
+                    "enum": "<list:projects_list>",
                 },
             },
             "required": ["project_name"],
         },
     },
-    {
+    "add_project": {
         "name": "add_project",
         "description": "Add a new project with given name, an optional description can be specified.",
         "parameters": {
@@ -79,7 +79,7 @@ FUNCTION_CALLS_COMMANDS = [
             "required": ["category_name"],
         },
     },
-    {
+    "add_category": {
         "name": "add_category",
         "description": "Add a new category with given name, an optional description can be specified. A project can be specified too, but it's optionnal.",
         "parameters": {
@@ -105,7 +105,7 @@ FUNCTION_CALLS_COMMANDS = [
             "required": ["category_name"],
         },
     },
-    {
+    "display_category_list": {
         "name": "display_category_list",
         "description": "Return all the categories. If a project name or ID is specified, return categories from this project, if not, return all categories from the current project.",
         "parameters": {
@@ -122,7 +122,7 @@ FUNCTION_CALLS_COMMANDS = [
             },
         },
     },
-]
+}
 
 FUNCTION_CALLS_CATEGORIZE = [
     {

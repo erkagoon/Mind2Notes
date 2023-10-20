@@ -1,6 +1,6 @@
 import whisper
-import openai
-from constants import OPENAI_API_KEY, OPENAI_AUDIO_MODEL
+from constants import OPENAI_AUDIO_MODEL
+from components.OpenAIHandler import OpenAIHandler
 
 class WhisperTranscriber:
     def __init__(self, record: str, type: str, use_api: bool = False):
@@ -22,12 +22,11 @@ class WhisperTranscriber:
                 return result["text"]
             else:
                 print("Transcribing using OpenAI API...")
-                openai.api_key = OPENAI_API_KEY
-                model = OPENAI_AUDIO_MODEL
-                f = open(self.record, "rb")
-                transcript = openai.Audio.transcribe("whisper-1", f)
+                openai_handler = OpenAIHandler()
+                response_format = "text"
+                transcript = openai_handler.post_audio(model=OPENAI_AUDIO_MODEL, file_path=self.record, response_format=response_format)
                 print("Transcription completed.")
-                return transcript['text']
+                return transcript
         except Exception as error:
             print(f"Error during transcription: {error}")
             return ""

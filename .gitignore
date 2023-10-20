@@ -22,3 +22,6 @@ build/
 dist/
 main.spec
 records/output.wav
+
+# Fichiers de configuration
+config.py
