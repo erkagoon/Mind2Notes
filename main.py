@@ -1,4 +1,4 @@
-from PyQt6 import QtWidgets
+from PyQt6 import QtWidgets, QtCore
 from Ui import Ui  # Import du module ui
 from Ui.Overlay import Overlay  # Import du module ui
 from components.Record import Record
@@ -7,20 +7,50 @@ from components.NoteProcessor import NoteProcessor
 from components.VocalCommandsManager import VocalCommandsManager
 from models.ProjectsDB import ProjectsDB
 from models.CategoriesDB import CategoriesDB
+from components.CategoriesBtn import CategoriesBtn
+from components.ProjectsBtn import ProjectsBtn
 
 class MyMainWindow(QtWidgets.QMainWindow, Ui.Ui_MainWindow):
     def __init__(self, projects_db, categories_db, *args, **kwargs):
         super(MyMainWindow, self).__init__(*args, **kwargs)
 
-        self.setupUi(self, projects_db, categories_db)
+        self.setupUi(self)
 
         # Créer une instance de la classe Record
         self.recorder = Record()
+
+        # Création des boutons de projet et catégorie dynamiquement à partir des class ProjectsBtn et CategoriesBtn
+        self.projects_component = ProjectsBtn(self, self.verticalLayout_3, projects_db)
+        self.project_buttons = self.projects_component.create_buttons()
+        self.projects_component.retranslateUi(self)
+
+        self.categories_component = CategoriesBtn(self, self.gridLayout_4, categories_db, 1)
+        self.category_buttons = self.categories_component.create_buttons()
+        self.categories_component.retranslateUi(self)
+
 
         # Connecter l'action 'actionnew_record' à une méthode spécifique
         #self.actionnew_record.triggered.connect(self.on_new_record_triggered)
         #self.actionnew_record.triggered.connect(self.on_record_note_pressed)
         #self.myButton.pressed.connect(self.my_method)
+
+    # def retranslateUi(self, MainWindow):
+    #     # Appel à la méthode originale
+    #     Ui.Ui_MainWindow.retranslateUi(self, MainWindow)
+
+    #     _translate = QtCore.QCoreApplication.translate
+
+    #     # Votre code personnalisé pour les boutons de catégorie
+    #     if hasattr(self, "category_buttons") and self.category_buttons:
+    #         for button in self.category_buttons:
+    #             button_name = button.text()
+    #             button.setText(_translate("MainWindow", button_name))
+
+    #     # Votre code personnalisé pour les boutons de projet
+    #     if hasattr(self, "project_buttons") and self.project_buttons:
+    #         for button in self.project_buttons:
+    #             button_name = button.text()
+    #             button.setText(_translate("MainWindow", button_name))
 
     def on_record_note_pressed(self):
         print("on_record_note_pressed")
