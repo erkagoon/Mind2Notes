@@ -1,7 +1,11 @@
 from PyQt6 import QtWidgets, QtCore
+from PyQt6.QtCore import QObject, pyqtSignal
+from functools import partial
 
-class ProjectsBtn:
+class ProjectsBtn(QObject):
+    project_button_clicked = pyqtSignal(int)  # Signal avec l'ID du projet comme argument
     def __init__(self, parent_widget, layout, database):
+        super().__init__()
         self.parent_widget = parent_widget
         self.layout = layout
         self.database = database
@@ -19,7 +23,7 @@ class ProjectsBtn:
             project_id, project_name = project
             button = QtWidgets.QPushButton(project_name, self.parent_widget)
             button.setObjectName(f"pushButton_{project_id}")
-            # button.clicked.connect(lambda p_id=project_id: self.on_project_button_clicked(p_id))  # Cette ligne doit être gérée dans la classe principale
+            button.clicked.connect(partial(self.project_button_clicked.emit, project_id))
             self.layout.addWidget(button)
             self.project_buttons.append(button)
 
