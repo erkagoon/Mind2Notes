@@ -4,6 +4,7 @@ from PyQt6.QtWidgets import QMenu, QSystemTrayIcon
 from PyQt6.QtCore import Qt
 from Ui import Ui  # Import du module ui
 from Ui.Overlay import Overlay  # Import du module ui
+from Ui.Setting import Ui_Form
 from components.Record import Record
 from components.WhisperTranscriber import WhisperTranscriber
 from components.NoteProcessor import NoteProcessor
@@ -12,6 +13,7 @@ from models.ProjectsDB import ProjectsDB
 from models.CategoriesDB import CategoriesDB
 from components.CategoriesBtn import CategoriesBtn
 from components.ProjectsBtn import ProjectsBtn
+from mainSetting import SettingWindow
 
 class MyMainWindow(QtWidgets.QMainWindow, Ui.Ui_MainWindow):
     def __init__(self, app, projects_db, categories_db, *args, **kwargs):
@@ -56,11 +58,17 @@ class MyMainWindow(QtWidgets.QMainWindow, Ui.Ui_MainWindow):
         self.category_buttons = self.categories_component.create_buttons()
         self.categories_component.retranslateUi(self)
 
+        # Bouton setting
+        self.actionsetting.triggered.connect(self.open_settings_window)
 
         # Connecter l'action 'actionnew_record' à une méthode spécifique
         #self.actionnew_record.triggered.connect(self.on_new_record_triggered)
         #self.actionnew_record.triggered.connect(self.on_record_note_pressed)
         #self.myButton.pressed.connect(self.my_method)
+
+    def open_settings_window(self):
+        self.settings_window = SettingWindow()  # Utilisez SettingWindow au lieu de Ui_Form
+        self.settings_window.show()
 
     def on_tray_icon_activated(self, reason):
         if reason == QSystemTrayIcon.ActivationReason.Trigger:  # Double-click

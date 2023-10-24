@@ -64,10 +64,16 @@ class Ui_MainWindow(object):
         icon3.addPixmap(QtGui.QPixmap("ui\\src\\../../icons/folder-export.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.actionextract.setIcon(icon3)
         self.actionextract.setObjectName("actionextract")
+        self.actionsetting = QtGui.QAction(parent=MainWindow)
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap("ui\\src\\../../icons/gear.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.actionsetting.setIcon(icon4)
+        self.actionsetting.setObjectName("actionsetting")
         self.toolBar.addAction(self.actionadd_project)
         self.toolBar.addAction(self.actionadd_category)
         self.toolBar.addAction(self.actionextract)
         self.toolBar.addAction(self.actionnew_record)
+        self.toolBar.addAction(self.actionsetting)
         self.toolBar.addSeparator()
 
         self.retranslateUi(MainWindow)
@@ -88,6 +94,8 @@ class Ui_MainWindow(object):
         self.actionnew_record.setShortcut(_translate("MainWindow", "Ctrl+R"))
         self.actionextract.setText(_translate("MainWindow", "extract"))
         self.actionextract.setToolTip(_translate("MainWindow", "Extract"))
+        self.actionsetting.setText(_translate("MainWindow", "setting"))
+        self.actionsetting.setToolTip(_translate("MainWindow", "Setting"))
 
 
 if __name__ == "__main__":

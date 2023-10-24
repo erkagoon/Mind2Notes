@@ -91,6 +91,7 @@
    <addaction name="actionadd_category"/>
    <addaction name="actionextract"/>
    <addaction name="actionnew_record"/>
+   <addaction name="actionsetting"/>
    <addaction name="separator"/>
   </widget>
   <action name="actionadd_project">
@@ -142,6 +143,18 @@
    </property>
    <property name="toolTip">
     <string>Extract</string>
+   </property>
+  </action>
+  <action name="actionsetting">
+   <property name="icon">
+    <iconset>
+     <normaloff>../../icons/gear.png</normaloff>../../icons/gear.png</iconset>
+   </property>
+   <property name="text">
+    <string>setting</string>
+   </property>
+   <property name="toolTip">
+    <string>Setting</string>
    </property>
   </action>
  </widget>
