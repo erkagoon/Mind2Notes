@@ -27,3 +27,12 @@ def clean_json(str_data):
         str_data += "\n]"
     
     return str_data
+
+
+active_project = None
+def set_active_project(project_id):
+    global active_project
+    active_project = project_id
+
+def get_active_project():
+    return active_project

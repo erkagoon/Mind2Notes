@@ -82,7 +82,7 @@ class Record:
             wf.setframerate(self.rate)
             wf.writeframes(b''.join(self.frames))
 
-        print(f"File saved as {file_path}")
+        #print(f"File saved as {file_path}")
 
         record_path = self.filename
         return record_path

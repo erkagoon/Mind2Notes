@@ -43,6 +43,14 @@ class ProjectsDB(BaseDB):
         except sqlite3.Error as e:
             print(f"Erreur lors de la mise à jour: {e}")
 
+    def get(self, id):
+        self.cursor.execute("SELECT * FROM projects WHERE id=?", (id,))
+        return self.cursor.fetchone()
+    
+    def get_from_name(self, name):
+        self.cursor.execute("SELECT * FROM projects WHERE name=?", (name,))
+        return self.cursor.fetchone()
+
     def fetch_all(self):
         self.cursor.execute("SELECT * FROM projects")
         return self.cursor.fetchall()

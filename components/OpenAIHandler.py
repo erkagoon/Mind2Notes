@@ -52,8 +52,6 @@ class OpenAIHandler:
         return return_data
     
     def post_audio(self, model, file_path, response_format=None):
-        openai.api_key = self.api_key
         audiofile = open(file_path, "rb")
-        transcript = openai.Audio.transcribe(model, audiofile, response_format)
-        print(transcript)
+        transcript = openai.Audio.transcribe(model=model, file=audiofile)
         return transcript['text']

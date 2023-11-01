@@ -21,11 +21,11 @@ class WhisperTranscriber:
                 print("Transcription completed.")
                 return result["text"]
             else:
-                print("Transcribing using OpenAI API...")
+                #print("Transcribing using OpenAI API...")
                 openai_handler = OpenAIHandler()
                 response_format = "text"
                 transcript = openai_handler.post_audio(model=OPENAI_AUDIO_MODEL, file_path=self.record, response_format=response_format)
-                print("Transcription completed.")
+                #print("Transcription completed.")
                 return transcript
         except Exception as error:
             print(f"Error during transcription: {error}")

@@ -119,7 +119,7 @@ class MyMainWindow(QtWidgets.QMainWindow, Ui.Ui_MainWindow):
 
         vocal_commands = VocalCommandsManager(transcription)
         function_call = vocal_commands.execute_command()
-        print(f"Function call : {function_call}")
+        # print(f"Function call : {function_call}")
 
     def closeEvent(self, event):
         event.ignore()

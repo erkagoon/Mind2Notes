@@ -32,6 +32,14 @@ Existing categories:
 
 
 FUNCTION_CALLS_COMMANDS = {
+    "get_currently_active_project": {
+        "name": "get_currently_active_project",
+        "description": "Get the currently active project.",
+        "parameters": {
+            "type": "object",
+            "properties": {}
+        }
+    },
     "switch_to_project_id": {
         "name": "switch_to_project_id",
         "description": "Switch to project with given ID.",
