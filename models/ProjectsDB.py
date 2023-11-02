@@ -16,17 +16,20 @@ class ProjectsDB(BaseDB):
         self.cursor.execute('''
         CREATE TABLE IF NOT EXISTS projects (
             id INTEGER PRIMARY KEY,
-            name TEXT NOT NULL
+            name TEXT NOT NULL,
+            description TEXT
         )
         ''')
         self.conn.commit()
 
-    def insert(self, name):
+    def insert(self, name, description=None):
         try:
-            self.cursor.execute("INSERT INTO projects (name) VALUES (?)", (name,))
+            self.cursor.execute("INSERT INTO projects (name, description) VALUES (?, ?)", (name, description))
             self.conn.commit()
+            return self.cursor.lastrowid
         except sqlite3.Error as e:
             print(f"Erreur lors de l'insertion: {e}")
+
 
     def delete(self, id):
         try:
@@ -35,13 +38,24 @@ class ProjectsDB(BaseDB):
         except sqlite3.Error as e:
             print(f"Erreur lors de la suppression: {e}")
 
-    def update(self, id, name=None):
+    def update(self, id, name=None, description=None):
         try:
+            updates = []
+            parameters = []
             if name:
-                self.cursor.execute("UPDATE projects SET name=? WHERE id=?", (name, id))
+                updates.append("name=?")
+                parameters.append(name)
+            if description:
+                updates.append("description=?")
+                parameters.append(description)
+            
+            if updates:
+                parameters.append(id)
+                self.cursor.execute(f"UPDATE projects SET {', '.join(updates)} WHERE id=?", tuple(parameters))
                 self.conn.commit()
         except sqlite3.Error as e:
             print(f"Erreur lors de la mise à jour: {e}")
+
 
     def get(self, id):
         self.cursor.execute("SELECT * FROM projects WHERE id=?", (id,))

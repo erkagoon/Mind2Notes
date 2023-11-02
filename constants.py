@@ -84,7 +84,7 @@ FUNCTION_CALLS_COMMANDS = {
                     "description": "The project description",
                 },
             },
-            "required": ["category_name"],
+            "required": ["project_name"],
         },
     },
     "add_category": {

@@ -20,7 +20,7 @@ class ProjectsBtn(QObject):
             return self.project_buttons
 
         for project in projects:
-            project_id, project_name = project
+            project_id, project_name, project_description = project
             button = QtWidgets.QPushButton(project_name, self.parent_widget)
             button.setObjectName(f"pushButton_{project_id}")
             button.clicked.connect(partial(self.project_button_clicked.emit, project_id))

@@ -17,16 +17,18 @@ class CategoriesDB(BaseDB):
         CREATE TABLE IF NOT EXISTS categories (
             id INTEGER PRIMARY KEY,
             name TEXT NOT NULL,
+            description TEXT,
             project_id INTEGER,
             FOREIGN KEY (project_id) REFERENCES projects(id)
         )
         ''')
         self.conn.commit()
 
-    def insert(self, name, project_id):
+    def insert(self, name, project_id, description=None):
         try:
-            self.cursor.execute("INSERT INTO categories (name, project_id) VALUES (?, ?)", (name, project_id))
+            self.cursor.execute("INSERT INTO categories (name, project_id, description) VALUES (?, ?, ?)", (name, project_id, description))
             self.conn.commit()
+            return self.cursor.lastrowid
         except sqlite3.Error as e:
             print(f"Erreur lors de l'insertion: {e}")
 
@@ -37,16 +39,27 @@ class CategoriesDB(BaseDB):
         except sqlite3.Error as e:
             print(f"Erreur lors de la suppression: {e}")
 
-    def update(self, id, name=None, project_id=None):
+    def update(self, id, name=None, description=None, project_id=None):
         try:
+            updates = []
+            parameters = []
             if name:
-                self.cursor.execute("UPDATE categories SET name=? WHERE id=?", (name, id))
-                self.conn.commit()
+                updates.append("name=?")
+                parameters.append(name)
+            if description:
+                updates.append("description=?")
+                parameters.append(description)
             if project_id:
-                self.cursor.execute("UPDATE categories SET project_id=? WHERE id=?", (project_id, id))
+                updates.append("project_id=?")
+                parameters.append(project_id)
+            
+            if updates:
+                parameters.append(id)
+                self.cursor.execute(f"UPDATE categories SET {', '.join(updates)} WHERE id=?", tuple(parameters))
                 self.conn.commit()
         except sqlite3.Error as e:
             print(f"Erreur lors de la mise à jour: {e}")
+
 
     def fetch_all(self):
         self.cursor.execute("SELECT * FROM categories")

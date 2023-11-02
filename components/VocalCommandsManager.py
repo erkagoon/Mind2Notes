@@ -53,16 +53,16 @@ class VocalCommandsManager:
     # System functions
     def get_currently_active_project(self):
         active_project = get_active_project()
-        print(f"Active project: {active_project}")
+        project = self.projects_db.get(active_project)
+        print(f"Active project: {project[1]} (ID: {active_project})")
 
     def switch_to_project_id(self, project_id):
         print(f"Switching to project with ID: {project_id}")
         set_active_project(project_id)
 
     def switch_to_project_name(self, project_name):
-        print(f"Switching to project with name: {project_name}")
         project = self.projects_db.get_from_name(project_name)
-        print(f"ID: {project}")
+        print(f"Switching to project with name: {project_name} (ID: {project[0]})")
         set_active_project(project[0])
 
     def display_category_list(self, project_name=None, project_id=None):
@@ -85,6 +85,57 @@ class VocalCommandsManager:
         
         # Print the fetched categories
         print(f"Categories: {categories}")
+
+    def add_project(self, project_name, project_description=None):
+        # Check if a project with this name already exists
+        existing_project = self.projects_db.get_from_name(project_name)
+        if existing_project:
+            print(f"A project with the name '{project_name}' already exists.")
+            return
+
+        # Insert the new project into the database
+        project_id = self.projects_db.insert(project_name, project_description)
+        if project_id:
+            confirmation_msg = f"Project '{project_name}' has been added with ID: {project_id}"
+            if project_description:
+                confirmation_msg += f" and description: '{project_description}'"
+            print(confirmation_msg)
+        else:
+            print("Failed to add the project.")
+
+    def add_category(self, category_name, category_description=None, project_name=None, project_id=None):
+        # Determine the project_id either by name or use the active project
+        if project_name:
+            project = self.projects_db.get_from_name(project_name)
+            if project:
+                project_id = project[0]
+            else:
+                print(f"No project with the name '{project_name}' found. Cannot add category.")
+                return
+        elif not project_id:
+            # Use the currently active project if no project is specified
+            project_id = get_active_project()
+            if not project_id:
+                print("No valid project specified and no active project found for the new category.")
+                return
+
+        # Check if a category with this name already exists within the project to avoid duplicates
+        existing_categories = self.categories_db.fetch_by_project_id(project_id)
+        if any(category['name'] == category_name for category in existing_categories):
+            print(f"A category with the name '{category_name}' already exists in the specified project.")
+            return
+
+        # Insert the new category into the database
+        category_id = self.categories_db.insert(category_name, project_id, category_description)
+        if category_id:
+            print(f"Category '{category_name}' has been added under project ID: {project_id}")
+            if category_description:  # Print the description if provided
+                print(f"Description: {category_description}")
+        else:
+            print("Failed to add the category.")
+
+
+
 
 
     # Display notifications
