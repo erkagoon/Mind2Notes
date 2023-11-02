@@ -49,12 +49,12 @@ class MyMainWindow(QtWidgets.QMainWindow, Ui.Ui_MainWindow):
         self.recorder = Record()
 
         # Création des boutons de projet et catégorie dynamiquement à partir des class ProjectsBtn et CategoriesBtn
-        self.projects_component = ProjectsBtn(self, self.verticalLayout_3, projects_db)
+        self.projects_component = ProjectsBtn(self, self.projectContainer, projects_db)
         self.project_buttons = self.projects_component.create_buttons()
         self.projects_component.project_button_clicked.connect(self.refresh_categories)
         self.projects_component.retranslateUi(self)
 
-        self.categories_component = CategoriesBtn(self, self.gridLayout_4, categories_db, 1)
+        self.categories_component = CategoriesBtn(self, self.catsContainer, categories_db, 1)
         self.category_buttons = self.categories_component.create_buttons()
         self.categories_component.retranslateUi(self)
 
@@ -80,8 +80,8 @@ class MyMainWindow(QtWidgets.QMainWindow, Ui.Ui_MainWindow):
         self.activateWindow()
 
     def refresh_categories(self, project_id):
-        self.clear_layout(self.gridLayout_4)
-        self.categories_component = CategoriesBtn(self, self.gridLayout_4, self.categories_db, project_id)
+        self.clear_layout(self.catsContainer)
+        self.categories_component = CategoriesBtn(self, self.catsContainer, self.categories_db, project_id)
         self.category_buttons = self.categories_component.create_buttons()
         self.categories_component.retranslateUi(self)
 
