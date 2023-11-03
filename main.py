@@ -15,13 +15,23 @@ from components.CategoriesBtn import CategoriesBtn
 from components.ProjectsBtn import ProjectsBtn
 from mainSetting import SettingWindow
 
-global main_window
-main_window = None
-
 class MyMainWindow(QtWidgets.QMainWindow, Ui.Ui_MainWindow):
-    def __init__(self, app, projects_db, categories_db, *args, **kwargs):
-        super(MyMainWindow, self).__init__(*args, **kwargs)
+    _instance = None
+    refresh_categories_needed = QtCore.pyqtSignal(int)
+    refresh_projects_needed = QtCore.pyqtSignal()
 
+    @classmethod
+    def get_instance(cls):
+        if cls._instance is None:
+            raise Exception("Instance not created yet")
+        return cls._instance
+    
+    def __init__(self, app, projects_db, categories_db, *args, **kwargs):
+        """Constructeur privé."""
+        if MyMainWindow._instance is not None:
+            raise Exception("Cette classe est un singleton !")
+        super(MyMainWindow, self).__init__(*args, **kwargs)
+        MyMainWindow._instance = self
         self.app = app
 
     ########### Mise en arrière plan de l'application #############
@@ -70,6 +80,9 @@ class MyMainWindow(QtWidgets.QMainWindow, Ui.Ui_MainWindow):
         #self.actionnew_record.triggered.connect(self.on_record_note_pressed)
         #self.myButton.pressed.connect(self.my_method)
 
+        self.refresh_categories_needed.connect(self.refresh_categories)
+        self.refresh_projects_needed.connect(self.refresh_projects)
+        
     def open_settings_window(self):
         self.settings_window = SettingWindow()  # Utilisez SettingWindow au lieu de Ui_Form
         self.settings_window.show()
@@ -102,7 +115,7 @@ class MyMainWindow(QtWidgets.QMainWindow, Ui.Ui_MainWindow):
                 widget.deleteLater()
 
     def on_record_note_pressed(self):
-        #print("on_record_note_pressed")
+        print("on_record_note_pressed")
         self.recorder.start_record()
         
     def on_record_note_released(self):
@@ -117,7 +130,7 @@ class MyMainWindow(QtWidgets.QMainWindow, Ui.Ui_MainWindow):
         print(f"Cleaned result : {cleaned_note}")
 
     def on_record_vocal_command_pressed(self):
-        #print("on_record_vocal_command_pressed")
+        print("on_record_vocal_command_pressed")
         self.recorder.start_record()
         
     def on_record_vocal_command_released(self):
@@ -140,7 +153,6 @@ class MyMainWindow(QtWidgets.QMainWindow, Ui.Ui_MainWindow):
     #     self.recorder.start_record()
 
 def main():
-    global main_window
     app = QtWidgets.QApplication([])
 
     # Initialisation de la base de données
@@ -174,7 +186,7 @@ def main():
     #         categories_db.insert(category_name, project_id)
     ##################################################################################################################################
 
-    main_window = MyMainWindow(app, projects_db, categories_db)  # Utilisation de notre sous-classe personnalisée au lieu de QMainWindow
+    main_window = MyMainWindow(app, projects_db, categories_db)
     main_window.show()
     app.exec()
 
