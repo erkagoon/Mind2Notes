@@ -1,6 +1,7 @@
 import openai
 import copy
 import json
+import inspect
 from constants import PROMPT_COMMANDS, FUNCTION_CALLS_COMMANDS
 from utils import replace_in_dict, set_active_project, get_active_project
 from components.OpenAIHandler import OpenAIHandler
@@ -14,7 +15,7 @@ from models.CategoriesDB import CategoriesDB
 # main_window.refresh_projects_needed.emit()
 
 def uiInstance():
-    from main import MyMainWindow
+    from core.MyMainWindow import MyMainWindow
     main_window = MyMainWindow.get_instance()
     return main_window
 
