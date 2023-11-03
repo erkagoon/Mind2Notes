@@ -89,7 +89,7 @@ FUNCTION_CALLS_COMMANDS = {
     },
     "add_category": {
         "name": "add_category",
-        "description": "Add a new category with given name, an optional description can be specified. A project can be specified too, but it's optionnal.",
+        "description": "Add a new category with given name, an optional description can be specified. An already existing project can be specified too, but it's optionnal.",
         "parameters": {
             "type": "object",
             "properties": {
@@ -104,6 +104,7 @@ FUNCTION_CALLS_COMMANDS = {
                 "project_name": {
                     "type": "string",
                     "description": "The project name",
+                    "enum": "<list:projects_list>",
                 },
                 "project_id": {
                     "type": "integer",
@@ -122,6 +123,7 @@ FUNCTION_CALLS_COMMANDS = {
                 "project_name": {
                     "type": "string",
                     "description": "The project name",
+                    "enum": "<list:projects_list>",
                 },
                 "project_id": {
                     "type": "integer",
