@@ -7,6 +7,15 @@ from components.OpenAIHandler import OpenAIHandler
 from models.ProjectsDB import ProjectsDB
 from models.CategoriesDB import CategoriesDB
 
+# Import de la variable global main_window necessaire
+# from main import main_window
+
+# Pour rafraichir les cats, nécessites l'id de projet
+# main_window.refresh_categories_needed.emit(1)
+
+# Pour rafraichir les projets
+# main_window.refresh_projects_needed.emit()
+
 class VocalCommandsManager:
     def __init__(self, vocal_command: str):
         self.vocal_command = vocal_command
