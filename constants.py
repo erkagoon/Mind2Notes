@@ -123,6 +123,7 @@ FUNCTION_CALLS_COMMANDS = {
                 "project_name": {
                     "type": "string",
                     "description": "The project name",
+                    "enum": "<list:projects_list>",
                 },
                 "project_id": {
                     "type": "integer",
