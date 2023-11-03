@@ -15,6 +15,9 @@ from components.CategoriesBtn import CategoriesBtn
 from components.ProjectsBtn import ProjectsBtn
 from mainSetting import SettingWindow
 
+global main_window
+main_window = None
+
 class MyMainWindow(QtWidgets.QMainWindow, Ui.Ui_MainWindow):
     def __init__(self, app, projects_db, categories_db, *args, **kwargs):
         super(MyMainWindow, self).__init__(*args, **kwargs)
@@ -43,6 +46,7 @@ class MyMainWindow(QtWidgets.QMainWindow, Ui.Ui_MainWindow):
     ###############################################################
 
         self.categories_db = categories_db
+        self.projects_db = projects_db
         self.setupUi(self)
 
         # Créer une instance de la classe Record
@@ -84,6 +88,12 @@ class MyMainWindow(QtWidgets.QMainWindow, Ui.Ui_MainWindow):
         self.categories_component = CategoriesBtn(self, self.catsContainer, self.categories_db, project_id)
         self.category_buttons = self.categories_component.create_buttons()
         self.categories_component.retranslateUi(self)
+
+    def refresh_projects(self):
+        self.clear_layout(self.projectContainer)
+        self.projects_component = ProjectsBtn(self, self.projectContainer, self.projects_db)
+        self.project_buttons = self.projects_component.create_buttons()
+        self.projects_component.retranslateUi(self)
 
     def clear_layout(self, layout):
         for i in reversed(range(layout.count())):
@@ -130,6 +140,7 @@ class MyMainWindow(QtWidgets.QMainWindow, Ui.Ui_MainWindow):
     #     self.recorder.start_record()
 
 def main():
+    global main_window
     app = QtWidgets.QApplication([])
 
     # Initialisation de la base de données
@@ -163,8 +174,8 @@ def main():
     #         categories_db.insert(category_name, project_id)
     ##################################################################################################################################
 
-    window = MyMainWindow(app, projects_db, categories_db)  # Utilisation de notre sous-classe personnalisée au lieu de QMainWindow
-    window.show()
+    main_window = MyMainWindow(app, projects_db, categories_db)  # Utilisation de notre sous-classe personnalisée au lieu de QMainWindow
+    main_window.show()
     app.exec()
 
 if __name__ == "__main__":
