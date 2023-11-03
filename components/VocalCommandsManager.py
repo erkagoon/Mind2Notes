@@ -6,9 +6,7 @@ from utils import replace_in_dict, set_active_project, get_active_project
 from components.OpenAIHandler import OpenAIHandler
 from models.ProjectsDB import ProjectsDB
 from models.CategoriesDB import CategoriesDB
-
-# Import de la variable global main_window necessaire
-# from main import main_window
+from main import main_window
 
 # Pour rafraichir les cats, nécessites l'id de projet
 # main_window.refresh_categories_needed.emit(1)
@@ -154,10 +152,10 @@ class VocalCommandsManager:
     
     # UI functions
     def ui_refresh_projects(self):
-        pass
+        main_window.refresh_projects_needed.emit()
 
     def ui_refresh_categories(self, project_id):
-        pass
+        main_window.refresh_categories_needed.emit(project_id)
 
 
 
