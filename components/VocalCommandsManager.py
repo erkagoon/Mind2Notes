@@ -7,17 +7,13 @@ from utils import replace_in_dict, set_active_project, get_active_project
 from components.OpenAIHandler import OpenAIHandler
 from models.ProjectsDB import ProjectsDB
 from models.CategoriesDB import CategoriesDB
+from components.UIManager import UIManager
 
 # Pour rafraichir les cats, nécessites l'id de projet
 # main_window.refresh_categories_needed.emit(1)
 
 # Pour rafraichir les projets
 # main_window.refresh_projects_needed.emit()
-
-def uiInstance():
-    from core.MyMainWindow import MyMainWindow
-    main_window = MyMainWindow.get_instance()
-    return main_window
 
 class VocalCommandsManager:
     def __init__(self, vocal_command: str):
@@ -114,7 +110,8 @@ class VocalCommandsManager:
             if project_description:
                 confirmation_msg += f" and description: '{project_description}'"
             self.display_notification(confirmation_msg)
-            self.ui_refresh_projects()
+            # self.ui_refresh_projects()
+            UIManager.refresh_projects()
         else:
             self.display_notification("Failed to add the project.")
 
@@ -150,17 +147,18 @@ class VocalCommandsManager:
             if category_description:
                 message += f" (Description: {category_description})"
             self.display_notification(message)
-            self.ui_refresh_categories(project_id)
+            # self.ui_refresh_categories(project_id)
+            UIManager.refresh_categories(project_id)
         else:
             self.display_notification("Failed to add the category.")
 
     
     # UI functions
-    def ui_refresh_projects(self):
-        uiInstance().refresh_projects_needed.emit()
+    # def ui_refresh_projects(self):
+    #     uiInstance().refresh_projects_needed.emit()
 
-    def ui_refresh_categories(self, project_id):
-        uiInstance().refresh_categories_needed.emit(project_id)
+    # def ui_refresh_categories(self, project_id):
+    #     uiInstance().refresh_categories_needed.emit(project_id)
 
 
 
