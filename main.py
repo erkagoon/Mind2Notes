@@ -92,7 +92,7 @@ class MyMainWindow(QtWidgets.QMainWindow, Ui.Ui_MainWindow):
                 widget.deleteLater()
 
     def on_record_note_pressed(self):
-        print("on_record_note_pressed")
+        #print("on_record_note_pressed")
         self.recorder.start_record()
         
     def on_record_note_released(self):
@@ -107,7 +107,7 @@ class MyMainWindow(QtWidgets.QMainWindow, Ui.Ui_MainWindow):
         print(f"Cleaned result : {cleaned_note}")
 
     def on_record_vocal_command_pressed(self):
-        print("on_record_vocal_command_pressed")
+        #print("on_record_vocal_command_pressed")
         self.recorder.start_record()
         
     def on_record_vocal_command_released(self):
