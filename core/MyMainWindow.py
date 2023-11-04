@@ -9,6 +9,7 @@ from components.NoteProcessor import NoteProcessor
 from components.VocalCommandsManager import VocalCommandsManager
 from components.CategoriesBtn import CategoriesBtn
 from components.ProjectsBtn import ProjectsBtn
+from components.FilesBtn import FilesBtn
 from mainSetting import SettingWindow
 
 class MyMainWindow(QtWidgets.QMainWindow, Ui.Ui_MainWindow):
@@ -22,7 +23,7 @@ class MyMainWindow(QtWidgets.QMainWindow, Ui.Ui_MainWindow):
             raise Exception("Instance not created yet")
         return cls._instance
     
-    def __init__(self, app, projects_db, categories_db, *args, **kwargs):
+    def __init__(self, app, projects_db, categories_db, files_db, *args, **kwargs):
         """Constructeur privé."""
         if MyMainWindow._instance is not None:
             raise Exception("Cette classe est un singleton !")
@@ -51,6 +52,7 @@ class MyMainWindow(QtWidgets.QMainWindow, Ui.Ui_MainWindow):
         self.tray_icon.show()
     ###############################################################
 
+        self.files_db = files_db
         self.categories_db = categories_db
         self.projects_db = projects_db
         self.setupUi(self)
@@ -66,7 +68,12 @@ class MyMainWindow(QtWidgets.QMainWindow, Ui.Ui_MainWindow):
 
         self.categories_component = CategoriesBtn(self, self.catsContainer, categories_db, 1)
         self.category_buttons = self.categories_component.create_buttons()
+        self.categories_component.category_button_clicked.connect(self.refresh_files)
         self.categories_component.retranslateUi(self)
+
+        self.files_component = FilesBtn(self, self.filesContainer, files_db, 1)
+        self.files_buttons = self.files_component.create_buttons()
+        self.files_component.retranslateUi(self)
 
         # Bouton setting
         self.actionsetting.triggered.connect(self.open_settings_window)
@@ -103,6 +110,12 @@ class MyMainWindow(QtWidgets.QMainWindow, Ui.Ui_MainWindow):
         self.projects_component = ProjectsBtn(self, self.projectContainer, self.projects_db)
         self.project_buttons = self.projects_component.create_buttons()
         self.projects_component.retranslateUi(self)
+
+    def refresh_files(self, categorie_id):
+        self.clear_layout(self.filesContainer)
+        self.files_component = FilesBtn(self, self.filesContainer, self.files_db, categorie_id)
+        self.files_buttons = self.files_component.create_buttons()
+        self.files_component.retranslateUi(self)
 
     def clear_layout(self, layout):
         for i in reversed(range(layout.count())):

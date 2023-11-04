@@ -11,6 +11,7 @@ from components.NoteProcessor import NoteProcessor
 from components.VocalCommandsManager import VocalCommandsManager
 from models.ProjectsDB import ProjectsDB
 from models.CategoriesDB import CategoriesDB
+from models.FilesDB import FilesDB
 from components.CategoriesBtn import CategoriesBtn
 from components.ProjectsBtn import ProjectsBtn
 from mainSetting import SettingWindow
@@ -22,7 +23,7 @@ def main():
     # Initialisation de la base de données
     projects_db = ProjectsDB('projectsAndCats.db')
     categories_db = CategoriesDB('projectsAndCats.db')
-
+    files_db = FilesDB('projectsAndCats.db')
     ##################################### Exemple d'insert dans la db projectsAndCats ################################################
     # Liste des noms de projets à insérer
     # project_names = ["Chats", "Chiens", "Oiseaux", "Fourmis", "Cervidés", "Vaches", "Chevaux", "Animaux de la ferme"]
@@ -50,7 +51,28 @@ def main():
     #         categories_db.insert(category_name, project_id)
     ##################################################################################################################################
 
-    main_window = MyMainWindow(app, projects_db, categories_db)
+    # Exemple d'insert de fichiers dans la db projectsAndCats
+    # Les fichiers pour le projet 1, catégorie 1
+    # files_to_insert_project1_cat1 = [
+    #     ('fichier1_projet1_cat1.jpg', 1, 1),
+    #     ('fichier2_projet1_cat1.jpg', 1, 1)
+    # ]
+
+    # # Les fichiers pour le projet 1, catégorie 2
+    # files_to_insert_project1_cat2 = [
+    #     ('fichier1_projet1_cat2.jpg', 1, 2),
+    #     ('fichier2_projet1_cat2.jpg', 1, 2)
+    # ]
+
+    # # Insérer les fichiers pour le projet 1, catégorie 1
+    # for file_name, project_id, category_id in files_to_insert_project1_cat1:
+    #     files_db.insert(file_name, project_id, category_id)
+
+    # # Insérer les fichiers pour le projet 1, catégorie 2
+    # for file_name, project_id, category_id in files_to_insert_project1_cat2:
+    #     files_db.insert(file_name, project_id, category_id)
+
+    main_window = MyMainWindow(app, projects_db, categories_db, files_db)
     main_window.show()
     app.exec()
 
